@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Relationship between willingness to vote and education level | A minimal Hugo website</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/tags/">Tags</a></li>
+      
+      <li><a href="/index.xml">Subscribe</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Relationship between willingness to vote and education level</span></h1>
+<h2 class="author">Feng shichao</h2>
+<h2 class="date">2020/09/26</h2>
+</div>
+
+<main>
+
+
+
+<p><strong>Abstract</strong></p>
+<p>This study studied the relationship between willingness to vote and education level. It was found voters with higher education level are more willing to vote than voters with lower education level. So that this study suggests government to imporve the level of education in the country which might lead to elections with higher participation rates in future.</p>
+<p><strong>Introduction</strong></p>
+<p>Participation rate in election is a very important measurement, a higher participation rate in election indicating a more reliable result as well as a more democracy system. However, not all of the voters in election have strong willingness to vote which might lead to a low participation rate. A low participation rate in election is not liked by political parties. so it is important to improve the participation rate. Danielle Root and Liz Kennedy(2018) already claimed the importance of it. In this study, it is aimed to investigate the relationship between willingness to vote and education level. The source of the study could be found in <a href="https://github.com/shichaofeng369/shichaofeng369.github.io" class="uri">https://github.com/shichaofeng369/shichaofeng369.github.io</a>.</p>
+<p><strong>Data&amp;Discussion</strong></p>
+<p>The 2019 Canadian Election Study online survey is the source of the data used in this study. The details of the data can be seen in <a href="http://www.ces-eec.ca/" class="uri">http://www.ces-eec.ca/</a> and a ‘rdata’ format copy named “ces2019_web.rdata” can be seen in the <a href="https://github.com/shichaofeng369/shichaofeng369.github.io" class="uri">https://github.com/shichaofeng369/shichaofeng369.github.io</a> which is downloaded using R package ‘cesR’, the details can be seen in <a href="https://hodgettsp.github.io/cesR/" class="uri">https://hodgettsp.github.io/cesR/</a>.</p>
+<p>The data used in this study mainly focused on two variables - willingness to vote and the education levels. Answers like ‘Don’t know’ are removed in this study. For willingness, 4 levels kept which are “Certain to vote”,“Likely to vote”, “Unlikely to vote” and “Certain not to vote”, so that the willingness to voe is decrease from “Certain to vote” to “Certain not to vote”. The education levels are recoded into 3 levels which are high, middle and low. In this study, master or higher degrees are recoded into high level of education, “Some university” and Bachelor’s degree are recoded into middle level of education, level lower than “Some university” are recoded into low level which is mostly occupied by high school level. This study is aimed to investigate the relationship between the willingness to vote and the education levels based on the subset data selected.</p>
+<p><strong>Graph&amp;Discussion</strong></p>
+<pre class="r"><code>#read data and load packages
+x &lt;- load(&quot;ces2019_web.rdata&quot;)
+library(ggplot2)
+library(scales)
+library(dplyr)
+
+#likely to vote
+likely &lt;- names(table(ces2019_web$cps19_v_likely))[1:4]
+
+#select subset of data
+data  &lt;- ces2019_web %&gt;% filter(!cps19_education%in% &quot;Don&#39;t know/ Prefer not to answer&quot; &amp; cps19_v_likely %in% likely)
+
+#education recoding into high, middle and low levels
+data$cps19_education &lt;- as.character(data$cps19_education)
+data$cps19_education[data$cps19_education %in% c(&quot;Master&#39;s degree&quot;,&quot;Professional degree or doctorate&quot;)] &lt;- &quot;High&quot;
+data$cps19_education[data$cps19_education %in% c(&quot;Some university&quot;,&quot;Bachelor&#39;s degree&quot;)] &lt;- &quot;Middle&quot;
+data$cps19_education[!data$cps19_education %in% c(&quot;High&quot;,&quot;Middle&quot;)] &lt;- &quot;Low&quot;
+data$cps19_education &lt;- factor(data$cps19_education, levels = c(&quot;Low&quot;,&quot;Middle&quot;,&quot;High&quot;))
+#compute percentages for 3 levels of educations
+data2 &lt;- data %&gt;% group_by(cps19_education,cps19_v_likely) %&gt;% summarise(freq = n())
+data2$freq[1:4] &lt;- data2$freq[1:4] / sum(data2$freq[1:4])  
+data2$freq[5:8] &lt;- data2$freq[5:8] / sum(data2$freq[5:8])  
+data2$freq[9:12] &lt;- data2$freq[9:12] / sum(data2$freq[9:12])  
+
+#draw the plot
+data2 %&gt;% ggplot(aes(cps19_education,freq,fill= cps19_v_likely))+geom_bar(stat=&quot;identity&quot;, position = &quot;dodge&quot;) + xlab(&quot;education levels&quot;) +
+  ylab(&quot;percentages&quot;) +
+  scale_y_continuous(label=percent)</code></pre>
+<p><img src="/post/2020-09-26-willingness-to-vote_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>The dodged bar plot shows the percentages of different willings to vote for 3 levels of education - low, middle and high. The plot clearly shows that the proportions of certain to vote are increase as the education levels become higher, it means the percentage of voters who have strong willing to vote is increase with increase of levels educated, the voter with master or higher degree are more willing to vote. Also, the plot shows that the proportions of certain not to vote are decrease as the education levels become higher, it means the percentage of voters who have strong willing not to vote is decrease with increase of levels educated, the voter with degree lower than bBachelor which are mostly high school are more willing not to vote. Overall, it means that higher educated voters are more willing to vote compared with lower educated voters, so that this study suggests to improve the education situation to improve the participation rate of people in the country which is real democracy.</p>
+<p><strong>Weaknesses&amp;Next steps</strong></p>
+<p>The study did not consider the factors such as age, gender in investigating relationship between education levels and willingness to vote. So without control other important factors, the results might not be so reliable, as it might be affected by the fact that older people are more willing to vote than younger people and etc. So that in next steps, important factors would be considered and the relationship between education levels and willingness to vote would be investigated more appropriately after controlling the important factors.</p>
+<p><strong>References</strong></p>
+<p>(1). Danielle Root and Liz Kennedy, 2018. Increasing Voter Participation in America -
+Policies to Drive Participation and Make Voting More Convenient.</p>
+<p>(2). 2019 Canadian Election Study online survey, <a href="http://www.ces-eec.ca/" class="uri">http://www.ces-eec.ca/</a>.</p>
+
+</main>
+
+  <footer>
+  <script src="//yihui.name/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.name/js/center-img.js"></script>
+
+  
+  <hr/>
+  © <a href="https://yihui.name">Yihui Xie</a> 2017 &ndash; 2019 | <a href="https://github.com/yihui">Github</a> | <a href="https://twitter.com/xieyihui">Twitter</a>
+  
+  </footer>
+  </body>
+</html>
+

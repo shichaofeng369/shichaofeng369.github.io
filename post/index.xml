@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on A minimal Hugo website</title>
+    <link>/post/</link>
+    <description>Recent content in Posts on A minimal Hugo website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 26 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Relationship between willingness to vote and education level</title>
+      <link>/post/2020/09/26/willingness-to-vote/</link>
+      <pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2020/09/26/willingness-to-vote/</guid>
+      <description>Abstract
+This study studied the relationship between willingness to vote and education level. It was found voters with higher education level are more willing to vote than voters with lower education level. So that this study suggests government to imporve the level of education in the country which might lead to elections with higher participation rates in future.
+Introduction
+Participation rate in election is a very important measurement, a higher participation rate in election indicating a more reliable result as well as a more democracy system.</description>
+    </item>
+    
+  </channel>
+</rss>
